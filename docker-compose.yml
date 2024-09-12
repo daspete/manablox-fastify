@@ -6,21 +6,28 @@ services:
     volumes:
       - ./nginx:/etc/nginx/templates
     depends_on:
-      - app
+      - api
     networks:
       manabloxnet:
         aliases:
           - api.manablox.test
 
-  app:
+  db:
+    image: mongodb/mongodb-community-server:latest
+    ports:
+      - 27017:27017
+    networks:
+      - manabloxnet
+
+  api:
     image: node:20
-    hostname: app
+    hostname: api
     working_dir: /app
     volumes:
       - .:/app
     networks:
       - manabloxnet
-    command: sh -c "yarn && yarn build && exec yarn dev"
+    command: sh -c "yarn && exec yarn build & exec yarn dev"
     # command: sh -c "yarn && yarn build && exec yarn preview --host=0.0.0.0"
 
 networks:

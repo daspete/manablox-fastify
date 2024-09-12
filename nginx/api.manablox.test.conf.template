@@ -13,7 +13,7 @@ server {
     gzip_min_length 1000;
 
     resolver 127.0.0.11 valid=3s;
-    set $backend "http://app:3000";
+    set $backend "http://api:3000";
 
     location / {
         expires $expires;

@@ -32,7 +32,7 @@ const start = async () => {
         await apolloServer.start();
         
         // await server.register(fastifyApollo(apolloServer));
-        server.route({
+        server.route({ 
             url: "/graphql",
             method: ['POST', 'OPTIONS'],
             handler: fastifyApolloHandler(apolloServer),
@@ -40,6 +40,7 @@ const start = async () => {
 
         await server.listen({
             port: 3000,
+            host: '0.0.0.0'
         });
     }catch(err){
         console.error(err);
