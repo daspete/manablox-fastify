@@ -1,0 +1,9 @@
+type Query {
+    contentTypes: [ContentType]
+}
+
+type ContentType {
+    contentTypeId: ID!
+    name: String
+    description: String
+}

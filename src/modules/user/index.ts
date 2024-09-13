@@ -1,4 +1,4 @@
-import { createModule, gql } from "graphql-modules";
+import { createModule } from "graphql-modules";
 import { userResolvers } from "./user.resolver";
 import { loadFilesSync } from "@graphql-tools/load-files";
 
