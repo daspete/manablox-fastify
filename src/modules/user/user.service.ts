@@ -9,13 +9,13 @@ export class UserService {
         this.database = new MongoDbProvider<User>('users');
     }
 
-    async find(filter: Filter<User>, options?: FindOptions) {
+    async find(filter: Filter<Partial<User>>, options?: FindOptions) {
         await this.database.connect();
         const users = await this.database.collection!.find(filter, options);
         return users.toArray();
     }
 
-    async findOne(filter: Filter<User>, options?: FindOptions) {
+    async findOne(filter: Filter<Partial<User>>, options?: FindOptions) {
         await this.database.connect();
         return this.database.collection!.findOne(filter, options);
     }

@@ -1,9 +1,212 @@
+scalar JSON
+scalar Date
+
 type Query {
     contentTypes: [ContentType]
 }
 
+type Mutation {
+    createContentType(contentType: ContentTypeInput!): ContentType
+    updateContentType(contentTypeId: ID!, contentType: ContentTypeInput!): ContentType
+    deleteContentType(contentTypeId: ID!): ContentType
+}
+
 type ContentType {
     contentTypeId: ID!
+    name: String!
+    description: String
+    hasSlug: Boolean
+    isBlockType: Boolean!
+    isPublishable: Boolean
+    isVisibleInTree: Boolean
+    canBeVisibleInMenu: Boolean
+    icon: String
+    fields: [ContentTypeField]!
+}
+input ContentTypeInput {
+    contentTypeId: ID
     name: String
     description: String
+    hasSlug: Boolean
+    isBlockType: Boolean
+    isPublishable: Boolean
+    isVisibleInTree: Boolean
+    canBeVisibleInMenu: Boolean
+    icon: String
+    fields: [JSON]
 }
+
+type ContentTypeFieldSettings {
+    isRequired: Boolean!
+}
+input ContentTypeFieldSettingsInput {
+    isRequired: Boolean!
+}
+
+type ContentTypeFieldAdminSettings {
+    zone: String
+    width: Float
+}
+input ContentTypeFieldAdminSettingsInput {
+    zone: String
+    width: Float
+}
+
+interface ContentTypeField {
+    contentTypeFieldId: ID!
+    type: String!
+    name: String!
+}
+input ContentTypeFieldInput {
+    contentTypeFieldId: ID
+    type: String
+    name: String
+    fieldSettings: ContentTypeFieldSettingsInput
+    adminSettings: ContentTypeFieldAdminSettingsInput
+    stringSettings: StringFieldTypeSettingsInput
+    numberSettings: NumberFieldTypeSettingsInput
+    booleanSettings: BooleanFieldTypeSettingsInput
+    dateSettings: DateFieldTypeSettingsInput
+    blockSettings: BlockFieldTypeSettingsInput
+    blocksSettings: BlocksFieldTypeSettingsInput
+}
+
+
+type StringFieldType implements ContentTypeField {
+    contentTypeFieldId: ID!
+    type: String!
+    name: String!
+    fieldSettings: ContentTypeFieldSettings
+    adminSettings: ContentTypeFieldAdminSettings
+    stringSettings: StringFieldTypeSettings
+}
+
+type StringFieldTypeSettings {
+    minCharacters: Int
+    maxCharacters: Int
+    defaultValue: String
+    regex: String
+    isRichText: Boolean
+    isCodeBlock: Boolean
+    isTextArea: Boolean
+}
+input StringFieldTypeSettingsInput {
+    minCharacters: Int
+    maxCharacters: Int
+    defaultValue: String
+    regex: String
+    isRichText: Boolean
+    isCodeBlock: Boolean
+    isTextArea: Boolean
+}
+
+
+type NumberFieldType implements ContentTypeField {
+    contentTypeFieldId: ID!
+    type: String!
+    name: String!
+    fieldSettings: ContentTypeFieldSettings
+    adminSettings: ContentTypeFieldAdminSettings
+    numberSettings: NumberFieldTypeSettings
+}
+
+type NumberFieldTypeSettings {
+    min: Float
+    max: Float
+    precision: Int
+    defaultValue: Float
+}
+input NumberFieldTypeSettingsInput {
+    min: Float
+    max: Float
+    precision: Int
+    defaultValue: Float
+}
+
+
+type BooleanFieldType implements ContentTypeField {
+    contentTypeFieldId: ID!
+    type: String!
+    name: String!
+    fieldSettings: ContentTypeFieldSettings
+    adminSettings: ContentTypeFieldAdminSettings
+    booleanSettings: BooleanFieldTypeSettings
+}
+
+type BooleanFieldTypeSettings {
+    defaultValue: Boolean
+}
+input BooleanFieldTypeSettingsInput {
+    defaultValue: Boolean
+}
+
+
+type DateFieldType implements ContentTypeField {
+    contentTypeFieldId: ID!
+    type: String!
+    name: String!
+    fieldSettings: ContentTypeFieldSettings
+    adminSettings: ContentTypeFieldAdminSettings
+    dateSettings: DateFieldTypeSettings
+}
+
+type DateFieldTypeSettings {
+    minDate: Date
+    maxDate: Date
+    excludedDates: [Date]
+    possibleDates: [Date]
+    defaultValue: Date
+}
+input DateFieldTypeSettingsInput {
+    minDate: Date
+    maxDate: Date
+    excludedDates: [Date]
+    possibleDates: [Date]
+    defaultValue: Date
+}
+
+type BlockFieldType implements ContentTypeField {
+    contentTypeFieldId: ID!
+    type: String!
+    name: String!
+    fieldSettings: ContentTypeFieldSettings
+    adminSettings: ContentTypeFieldAdminSettings
+    blockSettings: BlockFieldTypeSettings
+}
+
+type BlockFieldTypeSettings {
+    blockType: ContentType!
+}
+input BlockFieldTypeSettingsInput {
+    blockType: ID!
+}
+
+type BlocksFieldType implements ContentTypeField {
+    contentTypeFieldId: ID!
+    type: String!
+    name: String!
+    fieldSettings: ContentTypeFieldSettings
+    adminSettings: ContentTypeFieldAdminSettings
+    blocksSettings: BlocksFieldTypeSettings
+}
+
+type BlocksFieldTypeSettings {
+    possibleBlockTypes: [ContentType]!
+}
+input BlocksFieldTypeSettingsInput {
+    possibleBlockTypes: [ID]!
+}
+
+# type UserRelationField implements ContentTypeField {
+#     contentTypeFieldId: ID!
+#     type: String!
+#     name: String!
+#     fieldSettings: ContentTypeFieldSettings
+#     adminSettings: ContentTypeFieldAdminSettings
+#     userSettings: UserRelationFieldSettings
+# }
+
+# type UserRelationFieldSettings {
+#     defaultValue: User
+# }
+

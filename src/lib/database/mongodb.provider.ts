@@ -5,7 +5,7 @@ export class MongoDbProvider<T extends Record<string, any>> {
     collectionName: string;
     client: MongoClient;
     db: Db | null = null;
-    collection: Collection<T> | null = null;
+    collection: Collection<Partial<T>> | null = null;
 
     constructor(collectionName: string) {
         this.collectionName = collectionName;
@@ -22,7 +22,7 @@ export class MongoDbProvider<T extends Record<string, any>> {
             this.isConnected = true;
             
             this.db = this.client.db('manablox');
-            this.collection = this.db.collection<T>(this.collectionName);
+            this.collection = this.db.collection<Partial<T>>(this.collectionName);
         }catch(err){
             console.error(err);
             throw new Error('mongodb.connection error');

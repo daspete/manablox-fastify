@@ -42,6 +42,8 @@ const start = async () => {
             port: 3000,
             host: '0.0.0.0'
         });
+
+        console.log(`Server listening on port 3000`);
     }catch(err){
         console.error(err);
     }
