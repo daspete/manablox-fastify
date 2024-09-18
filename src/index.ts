@@ -1,9 +1,11 @@
 import { ApolloServer, BaseContext } from "@apollo/server";
 import { fastifyApolloDrainPlugin, fastifyApolloHandler } from "@as-integrations/fastify";
 import fastify from "fastify";
+import fastifyCompress from "fastify-compression"; 
 import { graphqlApplicaton } from "./modules/bootstrap";
 
 const server = fastify();
+server.register(fastifyCompress);
 
 const apolloServer = new ApolloServer<BaseContext>({
     plugins: [fastifyApolloDrainPlugin(server)],

@@ -1,0 +1,110 @@
+type Query {
+    contents: [Content]
+    contentByPermalink(permalink: String!): Content
+}
+
+type Mutation {
+    createContent(content: ContentInput!): Content
+    updateContent(contentId: ID!, content: ContentInput!): Content
+    deleteContent(contentId: ID!): Content
+}
+
+type Content {
+    contentId: ID!
+    contentType: ContentType!
+    title: String
+    slug: String
+    parent: Content
+    locale: String
+    localizationId: ID
+    fields: [ContentField]
+    permalink: String
+}
+input ContentInput {
+    contentId: ID
+    contentType: ID
+    title: String
+    slug: String
+    parent: ID
+    locale: String
+    localizationId: ID
+    fields: [ContentFieldInput]
+}
+
+type Block {
+    blockId: ID!
+    type: String!
+    fields: [ContentField]
+}
+input BlockInput {
+    blockId: ID
+    type: String
+    fields: [ContentFieldInput]
+}
+
+interface ContentField {
+    contentFieldId: ID!
+    type: String!
+    name: String!
+}
+input ContentFieldInput {
+    contentFieldId: ID
+    type: String
+    name: String
+    string: String
+    number: Float
+    boolean: Boolean
+    date: Date
+    block: BlockInput
+    blocks: [BlockInput]
+}
+
+
+
+
+type StringContentField implements ContentField {
+    contentFieldId: ID!
+    type: String!
+    name: String!
+    string: String
+}
+
+
+type NumberContentField implements ContentField {
+    contentFieldId: ID!
+    type: String!
+    name: String!
+    number: Float
+}
+
+
+type BooleanContentField implements ContentField {
+    contentFieldId: ID!
+    type: String!
+    name: String!
+    boolean: Boolean
+}
+
+
+type DateContentField implements ContentField {
+    contentFieldId: ID!
+    type: String!
+    name: String!
+    date: String
+}
+
+
+type BlockContentField implements ContentField {
+    contentFieldId: ID!
+    type: String!
+    name: String!
+    block: Block
+}
+
+
+type BlocksContentField implements ContentField {
+    contentFieldId: ID!
+    type: String!
+    name: String!
+    blocks: [Block]
+}
